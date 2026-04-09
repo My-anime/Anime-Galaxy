@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>✨ Anime Galaxy · Твой мир аниме</title>
+  <title>✨ Anime Galaxy</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     body {
       font-family: 'Inter', sans-serif;
       background: #0a0c16;
       color: #f0f2fa;
       min-height: 100vh;
     }
-    
     body::before {
       content: "";
       position: fixed;
@@ -23,7 +21,6 @@
       background: radial-gradient(ellipse at 30% 40%, #1a1f3a, #03050b 90%);
       z-index: -2;
     }
-    
     body::after {
       content: "";
       position: fixed;
@@ -32,13 +29,10 @@
         radial-gradient(2px 2px at 15% 25%, #ffffff80, transparent),
         radial-gradient(3px 3px at 72% 18%, #c4b5fd, transparent),
         radial-gradient(2px 2px at 88% 65%, #a78bfa90, transparent),
-        radial-gradient(4px 4px at 33% 80%, #e0e7ff, transparent),
-        radial-gradient(2px 2px at 5% 90%, #f0abfc, transparent),
-        radial-gradient(3px 3px at 95% 40%, #c4b5fd, transparent);
+        radial-gradient(4px 4px at 33% 80%, #e0e7ff, transparent);
       z-index: -1;
       pointer-events: none;
     }
-
     .galaxy-header {
       padding: 1.5rem 1rem;
       background: rgba(15, 20, 40, 0.7);
@@ -46,7 +40,6 @@
       border-bottom: 1px solid #2e3a6a;
       text-align: center;
     }
-    
     h1 {
       font-size: 2.5rem;
       font-weight: 700;
@@ -54,18 +47,13 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
     }
-
     .nav-tabs {
       display: flex;
       justify-content: center;
       gap: 10px;
       margin: 20px 0;
     }
-    
     .nav-tab {
       padding: 12px 28px;
       background: rgba(30, 35, 60, 0.6);
@@ -75,22 +63,14 @@
       cursor: pointer;
       font-weight: 500;
       transition: all 0.3s;
-      backdrop-filter: blur(4px);
     }
-    
     .nav-tab i { margin-right: 8px; }
-    
     .nav-tab.active {
       background: linear-gradient(135deg, #7c3aed, #9333ea);
       border-color: #c3b4ff;
       box-shadow: 0 0 25px #7c3aed80;
     }
-    
-    .nav-tab:hover {
-      background: #5b4caf;
-      transform: translateY(-2px);
-    }
-
+    .nav-tab:hover { background: #5b4caf; }
     .user-bar {
       display: flex;
       justify-content: center;
@@ -98,7 +78,6 @@
       flex-wrap: wrap;
       margin-top: 15px;
     }
-    
     .btn {
       padding: 12px 26px;
       background: rgba(45, 35, 80, 0.8);
@@ -114,19 +93,16 @@
       gap: 10px;
       font-size: 1rem;
     }
-    
     .btn-primary {
       background: linear-gradient(135deg, #7c3aed, #9333ea);
       border-color: #a78bfa;
     }
-    
     .btn:hover {
       background: #5b4caf;
       border-color: #c3b4ff;
       box-shadow: 0 0 20px #8b7bde;
       transform: translateY(-3px);
     }
-
     .user-info {
       display: inline-flex;
       align-items: center;
@@ -137,20 +113,17 @@
       backdrop-filter: blur(4px);
       gap: 10px;
     }
-
     .section-title {
       padding: 25px 25px 10px;
       font-size: 1.8rem;
       font-weight: 600;
     }
-    
     .anime-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 22px;
       padding: 20px 25px;
     }
-    
     .anime-card {
       background: rgba(20, 25, 50, 0.7);
       backdrop-filter: blur(10px);
@@ -160,12 +133,10 @@
       position: relative;
       transition: all 0.3s;
     }
-    
     .anime-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 22px 30px -10px #1e1b4b, 0 0 0 1px #8b7bde inset;
     }
-    
     .anime-card img {
       width: 100%;
       aspect-ratio: 2/3;
@@ -174,18 +145,15 @@
       margin-bottom: 12px;
       border: 1px solid #4f4f9f;
     }
-    
     .anime-title {
       font-weight: 700;
       font-size: 1.1rem;
       color: #f5f0ff;
     }
-    
     .anime-meta {
       font-size: 0.8rem;
       color: #c7c3ff;
     }
-    
     .delete-btn {
       position: absolute;
       top: 8px;
@@ -202,10 +170,8 @@
       justify-content: center;
       z-index: 10;
     }
-    
     .anime-card:hover .delete-btn { display: flex; }
     .delete-btn:hover { background: #ef4444; }
-
     .add-form-container {
       max-width: 500px;
       margin: 20px auto;
@@ -215,15 +181,12 @@
       border-radius: 24px;
       border: 1.5px solid #5b4caf;
     }
-    
     .form-group { margin-bottom: 20px; }
-    
     .form-group label {
       display: block;
       margin-bottom: 8px;
       color: #c3b4ff;
     }
-    
     .form-group input {
       width: 100%;
       padding: 12px;
@@ -233,7 +196,6 @@
       color: white;
       font-size: 1rem;
     }
-    
     .preview-image {
       width: 150px;
       height: 200px;
@@ -242,11 +204,8 @@
       margin-top: 10px;
       border: 2px solid #5b4caf;
     }
-    
     .page { display: none; }
     .page.active { display: block; }
-
-    /* ГАЛАКТИЧЕСКОЕ МОДАЛЬНОЕ ОКНО */
     .auth-modal {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -257,7 +216,6 @@
       backdrop-filter: blur(8px);
       background: radial-gradient(circle at 30% 40%, #0b0e1ac0, #02040ac0);
     }
-
     .auth-card {
       width: 100%;
       max-width: 400px;
@@ -270,35 +228,20 @@
       position: relative;
       animation: floatGalaxy 0.4s ease;
     }
-
     @keyframes floatGalaxy {
       0% { opacity: 0; transform: scale(0.9) translateY(20px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
-
-    .auth-card::before {
-      content: "";
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      background: linear-gradient(45deg, #a78bfa, #7c3aed, #c4b5fd, #9333ea);
-      border-radius: 34px;
-      z-index: -1;
-      opacity: 0.3;
-      filter: blur(15px);
-    }
-
     .auth-header {
       text-align: center;
       margin-bottom: 30px;
     }
-
     .auth-header i {
       font-size: 3rem;
       color: #e9d5ff;
       filter: drop-shadow(0 0 20px #a78bfa);
       margin-bottom: 10px;
     }
-
     .auth-header h2 {
       font-size: 1.8rem;
       background: linear-gradient(135deg, #f0e6ff, #c4b5fd);
@@ -306,23 +249,12 @@
       background-clip: text;
       color: transparent;
     }
-
-    .auth-input-group {
-      margin-bottom: 20px;
-    }
-
+    .auth-input-group { margin-bottom: 20px; }
     .auth-input-group label {
       display: block;
       margin-bottom: 8px;
       color: #d0c4ff;
-      font-weight: 500;
     }
-
-    .auth-input-group label i {
-      margin-right: 8px;
-      color: #a78bfa;
-    }
-
     .auth-input {
       width: 100%;
       padding: 14px 18px;
@@ -331,27 +263,18 @@
       border-radius: 20px;
       color: white;
       font-size: 1rem;
-      transition: all 0.3s;
     }
-
     .auth-input:focus {
       border-color: #c4b5fd;
       box-shadow: 0 0 20px #7c3aed80;
       outline: none;
-      background: #0f1422;
     }
-
     .auth-actions {
       display: flex;
       gap: 12px;
       margin-top: 25px;
     }
-
-    .auth-actions .btn {
-      flex: 1;
-      justify-content: center;
-    }
-
+    .auth-actions .btn { flex: 1; justify-content: center; }
     .close-modal {
       position: absolute;
       top: 15px;
@@ -361,27 +284,19 @@
       color: #b0a0e0;
       font-size: 24px;
       cursor: pointer;
-      transition: 0.2s;
     }
-
-    .close-modal:hover {
-      color: white;
-      transform: rotate(90deg);
-    }
-
+    .close-modal:hover { color: white; }
     .auth-switch {
       text-align: center;
       margin-top: 20px;
       color: #b0a0e0;
     }
-
     .auth-switch a {
       color: #c4b5fd;
       font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
     }
-
     .toast-msg {
       position: fixed;
       bottom: 25px;
@@ -392,9 +307,7 @@
       border-radius: 50px;
       border-left: 5px solid #a78bfa;
       z-index: 10000;
-      backdrop-filter: blur(8px);
     }
-
     .loading-placeholder {
       grid-column: 1 / -1;
       text-align: center;
@@ -406,17 +319,11 @@
 <body>
 
 <header class="galaxy-header">
-  <h1>
-    <i class="fas fa-galaxy"></i> 
-    Anime Galaxy
-    <i class="fas fa-star"></i>
-  </h1>
-  
+  <h1>🌌 Anime Galaxy</h1>
   <div class="nav-tabs">
     <div class="nav-tab active" data-page="catalog"><i class="fas fa-list"></i> Каталог</div>
     <div class="nav-tab" data-page="add"><i class="fas fa-plus-circle"></i> Добавить</div>
   </div>
-
   <div class="user-bar" id="authSection">
     <button class="btn" id="showLoginBtn"><i class="fas fa-sign-in-alt"></i> Войти</button>
     <button class="btn" id="showSignupBtn"><i class="fas fa-user-plus"></i> Регистрация</button>
@@ -430,7 +337,6 @@
       <div class="loading-placeholder"><i class="fas fa-spinner fa-pulse"></i> Загрузка...</div>
     </div>
   </div>
-
   <div class="page" id="addPage">
     <div class="section-title"><i class="fas fa-cloud-upload-alt" style="color:#a78bfa;"></i> Добавить аниме</div>
     <div class="add-form-container">
@@ -442,7 +348,7 @@
         <div class="form-group">
           <label><i class="fas fa-image"></i> Ссылка на постер *</label>
           <input type="url" id="animeImage" placeholder="https://..." required>
-          <img class="preview-image" id="imagePreview" src="https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер">
+          <img class="preview-image" id="imagePreview" src="https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер" alt="Превью">
         </div>
         <div class="form-group">
           <label><i class="fas fa-calendar"></i> Год</label>
@@ -478,5 +384,40 @@
     });
     
     // Превью картинки
-    document.getElementById('animeImage').addEventListener('input', function() {
-      document.getElementById('imagePreview').src = this.value ||
+    const imageInput = document.getElementById('animeImage');
+    const imagePreview = document.getElementById('imagePreview');
+    imageInput.addEventListener('input', function() {
+      imagePreview.src = this.value || 'https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер';
+    });
+    
+    // Уведомления
+    function showToast(msg, isError) {
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.style.background = isError ? '#4a1e2eb3' : '#1e1b4be0';
+      toast.innerHTML = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+    
+    // Загрузка аниме
+    async function loadAnime() {
+      const container = document.getElementById('animeList');
+      container.innerHTML = '<div class="loading-placeholder"><i class="fas fa-spinner fa-pulse"></i> Загрузка...</div>';
+      
+      const { data, error } = await supabase.from('anime').select('*').order('id', { ascending: false });
+      
+      if (error) {
+        container.innerHTML = '<div class="loading-placeholder">❌ Ошибка загрузки</div>';
+        return;
+      }
+      
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="loading-placeholder">📭 Нет аниме. Добавьте первое!</div>';
+        return;
+      }
+      
+      container.innerHTML = data.map(a => `
+        <div class="anime-card">
+          <button class="delete-btn" data-id="${a.id}"><i class="fas fa-trash"></i></button>
+          <img src="${a
