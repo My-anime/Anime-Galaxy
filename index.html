@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>✨ Anime Galaxy · Debug</title>
+  <title>✨ Anime Galaxy · Debug FIX</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -21,10 +21,7 @@
       margin: 20px auto;
       max-width: 800px;
     }
-    h1 {
-      color: #a78bfa;
-      margin-bottom: 20px;
-    }
+    h1 { color: #a78bfa; margin-bottom: 20px; }
     .status-item {
       padding: 10px;
       margin: 10px 0;
@@ -57,16 +54,16 @@
 </head>
 <body>
   <div class="debug-panel">
-    <h1>🔍 Anime Galaxy · Диагностика</h1>
+    <h1>🔍 Anime Galaxy · Диагностика (ИСПРАВЛЕНО)</h1>
     
     <div id="status">
-      <div class="status-item">⏳ Инициализация...</div>
+      <div class="status-item">⏳ Загрузка...</div>
     </div>
 
     <div style="margin-top: 20px;">
-      <button onclick="testConnection()">🔄 Проверить подключение</button>
-      <button onclick="testAuth()">🔑 Тест авторизации</button>
-      <button onclick="createAnimeTable()">📋 Создать таблицу anime</button>
+      <button id="testConnectionBtn">🔄 Проверить подключение</button>
+      <button id="testAuthBtn">🔑 Тест авторизации</button>
+      <button id="createTableBtn">📋 Создать таблицу anime</button>
     </div>
 
     <div id="results" style="margin-top: 20px;"></div>
@@ -74,133 +71,97 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://iviuuwynwfgfaqwtmfyp.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_ZR93peHGHF_brC1jzvsiPg_ZnSKFXwL";
-    
-    let supabase;
-    const statusDiv = document.getElementById('status');
-    const resultsDiv = document.getElementById('results');
-    
-    function addStatus(message, type = 'info') {
-      const className = type === 'success' ? 'success' : type === 'error' ? 'error' : '';
-      statusDiv.innerHTML = `<div class="status-item ${className}">${message}</div>`;
-    }
-    
-    function addResult(title, data) {
-      resultsDiv.innerHTML = `
-        <h3>${title}</h3>
-        <pre>${JSON.stringify(data, null, 2)}</pre>
-      ` + resultsDiv.innerHTML;
-    }
-    
-    // Инициализация Supabase
-    try {
-      supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      addStatus('✅ Supabase JS загружен', 'success');
-    } catch(e) {
-      addStatus(`❌ Ошибка загрузки Supabase: ${e.message}`, 'error');
-    }
-    
-    async function testConnection() {
-      addStatus('🔄 Проверка подключения к Supabase...');
+    (function() {
+      const SUPABASE_URL = "https://iviuuwynwfgfaqwtmfyp.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_ZR93peHGHF_brC1jzvsiPg_ZnSKFXwL";
       
+      let supabase;
+      const statusDiv = document.getElementById('status');
+      const resultsDiv = document.getElementById('results');
+      
+      function addStatus(message, type) {
+        type = type || 'info';
+        var className = '';
+        if (type === 'success') className = 'success';
+        else if (type === 'error') className = 'error';
+        else if (type === 'warning') className = 'warning';
+        statusDiv.innerHTML = '<div class="status-item ' + className + '">' + message + '</div>';
+      }
+      
+      function addResult(title, data) {
+        resultsDiv.innerHTML = '<h3>' + title + '</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>' + resultsDiv.innerHTML;
+      }
+      
+      // Инициализация
       try {
-        // Проверяем, существует ли таблица anime
-        const { data, error, status } = await supabase
-          .from('anime')
-          .select('*')
-          .limit(1);
-        
-        addResult('Результат запроса:', { data, error, status });
-        
-        if (error) {
-          if (error.code === '42P01') {
-            addStatus('❌ Таблица "anime" не существует! Нажмите "Создать таблицу anime"', 'error');
-          } else if (error.message.includes('JWT')) {
-            addStatus('❌ Ошибка авторизации. Проверьте RLS политики', 'error');
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        addStatus('✅ Supabase загружен! Нажмите кнопку.', 'success');
+        console.log('Supabase initialized');
+      } catch(e) {
+        addStatus('❌ Ошибка: ' + e.message, 'error');
+        console.error(e);
+      }
+      
+      // Привязка кнопок
+      document.getElementById('testConnectionBtn').onclick = async function() {
+        addStatus('🔄 Проверка подключения...');
+        try {
+          const result = await supabase.from('anime').select('*').limit(1);
+          addResult('Результат запроса:', result);
+          
+          if (result.error) {
+            if (result.error.code === '42P01') {
+              addStatus('❌ Таблица "anime" не существует!', 'error');
+            } else {
+              addStatus('❌ Ошибка: ' + result.error.message, 'error');
+            }
           } else {
-            addStatus(`❌ Ошибка: ${error.message}`, 'error');
+            addStatus('✅ Подключение успешно! Записей: ' + (result.data ? result.data.length : 0), 'success');
           }
-        } else if (data) {
-          addStatus(`✅ Подключение успешно! Найдено записей: ${data.length}`, 'success');
+        } catch(e) {
+          addStatus('❌ Исключение: ' + e.message, 'error');
         }
-      } catch(e) {
-        addStatus(`❌ Исключение: ${e.message}`, 'error');
-        addResult('Ошибка:', e);
-      }
-    }
-    
-    async function testAuth() {
-      addStatus('🔄 Проверка авторизации...');
+      };
       
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        addResult('Сессия:', { session: data.session, error });
-        
-        if (data.session) {
-          addStatus(`✅ Пользователь авторизован: ${data.session.user.email}`, 'success');
-        } else {
-          addStatus('ℹ️ Нет активной сессии (это нормально)', 'warning');
+      document.getElementById('testAuthBtn').onclick = async function() {
+        addStatus('🔄 Проверка сессии...');
+        try {
+          const result = await supabase.auth.getSession();
+          addResult('Сессия:', result);
+          if (result.data.session) {
+            addStatus('✅ Пользователь: ' + result.data.session.user.email, 'success');
+          } else {
+            addStatus('ℹ️ Нет активной сессии', 'warning');
+          }
+        } catch(e) {
+          addStatus('❌ Ошибка: ' + e.message, 'error');
         }
-      } catch(e) {
-        addStatus(`❌ Ошибка: ${e.message}`, 'error');
-      }
-    }
-    
-    async function createAnimeTable() {
-      addStatus('🔄 Попытка создать таблицу anime...');
+      };
       
-      // Пробуем вставить тестовую запись (таблица создастся автоматически если разрешено)
-      try {
-        const { data, error } = await supabase
-          .from('anime')
-          .insert([{
-            title: 'Тестовое аниме',
+      document.getElementById('createTableBtn').onclick = async function() {
+        addStatus('🔄 Создание записи...');
+        try {
+          const result = await supabase.from('anime').insert([{
+            title: 'Тестовое аниме ' + new Date().toLocaleTimeString(),
             image: 'https://via.placeholder.com/200x300',
             year: 2024,
             genre: 'Тест'
-          }])
-          .select();
-        
-        addResult('Результат вставки:', { data, error });
-        
-        if (error) {
-          if (error.message.includes('permission denied')) {
-            addStatus('❌ Нет прав на создание записей. Нужно настроить RLS в Supabase', 'error');
-            showRLSHelp();
+          }]).select();
+          
+          addResult('Результат вставки:', result);
+          
+          if (result.error) {
+            addStatus('❌ Ошибка: ' + result.error.message, 'error');
           } else {
-            addStatus(`❌ Ошибка: ${error.message}`, 'error');
+            addStatus('✅ Аниме добавлено!', 'success');
           }
-        } else {
-          addStatus('✅ Тестовое аниме добавлено! Таблица существует.', 'success');
+        } catch(e) {
+          addStatus('❌ Исключение: ' + e.message, 'error');
         }
-      } catch(e) {
-        addStatus(`❌ Ошибка: ${e.message}`, 'error');
-      }
-    }
-    
-    function showRLSHelp() {
-      resultsDiv.innerHTML = `
-        <div style="background: #1e1b4b; padding: 20px; border-radius: 10px; margin-top: 20px;">
-          <h3>📋 Как настроить RLS в Supabase:</h3>
-          <ol style="margin-left: 20px; line-height: 2;">
-            <li>Зайдите в Supabase Dashboard</li>
-            <li>Выберите "Table Editor" → таблица "anime"</li>
-            <li>Нажмите "Edit" (карандаш справа)</li>
-            <li>Вкладка "Policies" → "New Policy"</li>
-            <li>Выберите шаблон: "Enable read access to everyone"</li>
-            <li>Создайте ещё одну: "Enable insert for authenticated users only"</li>
-            <li>Сохраните и обновите страницу</li>
-          </ol>
-        </div>
-      ` + resultsDiv.innerHTML;
-    }
-    
-    // Автозапуск при загрузке
-    setTimeout(() => {
-      testConnection();
-      testAuth();
-    }, 500);
+      };
+      
+      console.log('Страница готова, кнопки привязаны');
+    })();
   </script>
 </body>
 </html>
