@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>✨ Anime Galaxy · Твой мир аниме</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -23,43 +21,26 @@
       background: radial-gradient(circle at 30% 40%, #1a1f3a, #03050b 90%);
       z-index: -2;
     }
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image: 
-        radial-gradient(3px 3px at 20% 30%, #ffffff30, transparent),
-        radial-gradient(2px 2px at 80% 70%, #a78bfa40, transparent),
-        radial-gradient(4px 4px at 40% 80%, #7c6bc050, transparent);
-      z-index: -1;
-      pointer-events: none;
-    }
     .galaxy-header {
       padding: 1.5rem 1rem;
       background: rgba(15, 20, 40, 0.8);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid #2e3a6a;
-      box-shadow: 0 10px 30px -10px #00000080;
+      text-align: center;
     }
     h1 {
       font-size: 2.5rem;
       font-weight: 700;
-      text-align: center;
       background: linear-gradient(135deg, #c4b5fd, #a78bfa, #f0abfc);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
     }
     .nav-tabs {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 20px;
+      margin: 20px 0;
     }
     .nav-tab {
       padding: 10px 24px;
@@ -69,7 +50,6 @@
       border-radius: 40px;
       cursor: pointer;
       font-weight: 500;
-      transition: all 0.2s;
     }
     .nav-tab.active {
       background: #7c3aed;
@@ -81,19 +61,16 @@
       display: flex;
       justify-content: center;
       gap: 15px;
-      margin-top: 15px;
       flex-wrap: wrap;
     }
     .btn {
       padding: 10px 22px;
       background: rgba(45, 35, 80, 0.8);
-      backdrop-filter: blur(4px);
       border: 1.5px solid #7c6bc0;
       color: white;
       font-weight: 600;
       border-radius: 60px;
       cursor: pointer;
-      transition: all 0.25s;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -102,34 +79,14 @@
       background: #7c3aed;
       border-color: #a78bfa;
     }
-    .btn-primary:hover {
-      background: #9f5ef7;
-      box-shadow: 0 0 18px #8b7bde;
-      transform: translateY(-2px);
-    }
     .btn:hover {
       background: #5b4caf;
-      border-color: #c3b4ff;
-      box-shadow: 0 0 18px #8b7bde;
       transform: translateY(-2px);
-    }
-    .user-info {
-      display: inline-flex;
-      align-items: center;
-      background: #1e1b4b60;
-      padding: 5px 18px;
-      border-radius: 40px;
-      border: 1px solid #5b4caf;
-      backdrop-filter: blur(4px);
-      gap: 8px;
     }
     .section-title {
       padding: 25px 25px 10px;
       font-size: 1.8rem;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
     .anime-grid {
       display: grid;
@@ -141,18 +98,9 @@
       background: rgba(20, 25, 50, 0.7);
       backdrop-filter: blur(10px);
       border-radius: 20px;
-      padding: 14px 12px 16px;
+      padding: 14px 12px;
       border: 1px solid #384072;
-      box-shadow: 0 15px 25px -12px #00000080;
-      transition: all 0.25s;
-      display: flex;
-      flex-direction: column;
       position: relative;
-    }
-    .anime-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 22px 30px -10px #1e1b4b, 0 0 0 1px #8b7bde inset;
-      border-color: #b1a1f0;
     }
     .anime-card img {
       width: 100%;
@@ -160,22 +108,16 @@
       object-fit: cover;
       border-radius: 14px;
       margin-bottom: 12px;
-      box-shadow: 0 8px 14px #00000050;
       border: 1px solid #4f4f9f;
-      background: #0f1322;
     }
     .anime-title {
       font-weight: 700;
       font-size: 1.1rem;
-      margin: 6px 0 4px;
       color: #f5f0ff;
     }
     .anime-meta {
       font-size: 0.8rem;
-      opacity: 0.8;
       color: #c7c3ff;
-      display: flex;
-      justify-content: space-between;
     }
     .delete-btn {
       position: absolute;
@@ -191,56 +133,33 @@
       display: none;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      box-shadow: 0 4px 10px #00000080;
-      transition: 0.2s;
       z-index: 10;
     }
     .anime-card:hover .delete-btn { display: flex; }
-    .delete-btn:hover {
-      background: #ef4444;
-      transform: scale(1.1);
-    }
+    .delete-btn:hover { background: #ef4444; }
     .add-form-container {
-      max-width: 600px;
+      max-width: 500px;
       margin: 20px auto;
       padding: 30px;
       background: rgba(20, 25, 50, 0.8);
       backdrop-filter: blur(12px);
       border-radius: 24px;
       border: 1.5px solid #5b4caf;
-      box-shadow: 0 20px 40px #00000060;
     }
-    .form-group {
-      margin-bottom: 20px;
-    }
+    .form-group { margin-bottom: 20px; }
     .form-group label {
       display: block;
       margin-bottom: 8px;
       color: #c3b4ff;
-      font-weight: 500;
     }
-    .form-group label i {
-      margin-right: 8px;
-      width: 20px;
-      color: #a78bfa;
-    }
-    .form-group input,
-    .form-group textarea {
+    .form-group input, .form-group textarea {
       width: 100%;
-      padding: 12px 16px;
+      padding: 12px;
       background: #0d1120;
       border: 1.5px solid #3a4270;
       border-radius: 14px;
       color: white;
       font-size: 1rem;
-      outline: none;
-      transition: 0.2s;
-    }
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: #a78bfa;
-      box-shadow: 0 0 10px #7c3aed60;
     }
     .preview-image {
       width: 150px;
@@ -249,7 +168,6 @@
       border-radius: 12px;
       margin-top: 10px;
       border: 2px solid #5b4caf;
-      background: #0d1120;
     }
     .page { display: none; }
     .page.active { display: block; }
@@ -259,11 +177,9 @@
       left: 50%;
       transform: translateX(-50%);
       background: #1e1b4be0;
-      backdrop-filter: blur(12px);
       padding: 12px 28px;
       border-radius: 50px;
       border-left: 5px solid #a78bfa;
-      box-shadow: 0 15px 30px #00000070;
       z-index: 10000;
     }
     .loading-placeholder {
@@ -271,81 +187,53 @@
       text-align: center;
       padding: 50px;
       color: #b3b0d4;
-      font-size: 1.2rem;
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 1.8rem; }
-      .anime-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-      .add-form-container { margin: 20px 15px; padding: 20px; }
     }
   </style>
 </head>
 <body>
 
 <header class="galaxy-header">
-  <h1>
-    <i class="fas fa-galaxy"></i> 
-    Anime Galaxy
-    <i class="fas fa-star"></i>
-  </h1>
-  
+  <h1>🌌 Anime Galaxy</h1>
   <div class="nav-tabs">
-    <div class="nav-tab active" data-page="catalog"><i class="fas fa-list"></i> Каталог</div>
-    <div class="nav-tab" data-page="add"><i class="fas fa-plus-circle"></i> Добавить аниме</div>
+    <div class="nav-tab active" data-page="catalog">📋 Каталог</div>
+    <div class="nav-tab" data-page="add">➕ Добавить</div>
   </div>
-
   <div class="user-bar" id="authSection">
-    <button class="btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Войти</button>
-    <button class="btn" id="signupBtn"><i class="fas fa-user-plus"></i> Регистрация</button>
+    <button class="btn" id="loginBtn">🔑 Войти</button>
+    <button class="btn" id="signupBtn">📝 Регистрация</button>
   </div>
 </header>
 
 <main>
-  <!-- Каталог -->
   <div class="page active" id="catalogPage">
-    <div class="section-title">
-      <i class="fas fa-fire" style="color: #f97316;"></i> 
-      Все аниме
-      <span style="margin-left: auto; font-size: 0.9rem;" id="userGreeting"></span>
-    </div>
+    <div class="section-title">🔥 Все аниме</div>
     <div class="anime-grid" id="animeList">
-      <div class="loading-placeholder"><i class="fas fa-spinner fa-pulse"></i> Загрузка...</div>
+      <div class="loading-placeholder">Загрузка...</div>
     </div>
   </div>
 
-  <!-- Добавление -->
   <div class="page" id="addPage">
-    <div class="section-title">
-      <i class="fas fa-cloud-upload-alt" style="color: #a78bfa;"></i>
-      Загрузить новое аниме
-    </div>
-    
+    <div class="section-title">📤 Добавить аниме</div>
     <div class="add-form-container">
       <form id="addAnimeForm">
         <div class="form-group">
-          <label><i class="fas fa-heading"></i> Название *</label>
+          <label>Название *</label>
           <input type="text" id="animeTitle" placeholder="Атака титанов" required>
         </div>
         <div class="form-group">
-          <label><i class="fas fa-image"></i> Ссылка на постер *</label>
+          <label>Ссылка на постер *</label>
           <input type="url" id="animeImage" placeholder="https://..." required>
-          <img class="preview-image" id="imagePreview" src="https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер" alt="Превью">
+          <img class="preview-image" id="imagePreview" src="https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер">
         </div>
         <div class="form-group">
-          <label><i class="fas fa-calendar"></i> Год</label>
+          <label>Год</label>
           <input type="number" id="animeYear" placeholder="2024" min="1950" max="2030">
         </div>
         <div class="form-group">
-          <label><i class="fas fa-tags"></i> Жанр</label>
+          <label>Жанр</label>
           <input type="text" id="animeGenre" placeholder="Экшен, Фэнтези">
         </div>
-        <div class="form-group">
-          <label><i class="fas fa-align-left"></i> Описание</label>
-          <textarea id="animeDescription" placeholder="Краткое описание..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">
-          <i class="fas fa-upload"></i> Загрузить аниме
-        </button>
+        <button type="submit" class="btn btn-primary" style="width:100%">📤 Загрузить</button>
       </form>
     </div>
   </div>
@@ -358,43 +246,117 @@
     const SUPABASE_KEY = "sb_publishable_ZR93peHGHF_brC1jzvsiPg_ZnSKFXwL";
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    let currentUser = null;
-    
-    // Переключение страниц
+    // Переключение вкладок
     document.querySelectorAll('.nav-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
+      tab.addEventListener('click', function() {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+        this.classList.add('active');
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(tab.dataset.page + 'Page').classList.add('active');
+        document.getElementById(this.dataset.page + 'Page').classList.add('active');
       });
     });
     
     // Превью картинки
-    const imageInput = document.getElementById('animeImage');
-    imageInput.addEventListener('input', () => {
-      document.getElementById('imagePreview').src = imageInput.value || 'https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер';
+    document.getElementById('animeImage').addEventListener('input', function() {
+      document.getElementById('imagePreview').src = this.value || 'https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер';
     });
     
+    // Уведомления
     function showToast(msg, isError) {
       const toast = document.createElement('div');
       toast.className = 'toast-msg';
       toast.style.background = isError ? '#4a1e2eb3' : '#1e1b4be0';
-      toast.style.borderLeftColor = isError ? '#f87171' : '#a78bfa';
-      toast.innerHTML = '<i class="fas ' + (isError ? 'fa-exclamation-circle' : 'fa-check-circle') + '" style="margin-right:8px;"></i>' + msg;
+      toast.innerHTML = msg;
       document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3500);
+      setTimeout(() => toast.remove(), 3000);
     }
     
+    // Загрузка аниме
     async function loadAnime() {
       const container = document.getElementById('animeList');
-      container.innerHTML = '<div class="loading-placeholder"><i class="fas fa-spinner fa-pulse"></i> Загрузка...</div>';
+      container.innerHTML = '<div class="loading-placeholder">Загрузка...</div>';
+      
       const { data, error } = await supabase.from('anime').select('*').order('id', { ascending: false });
-      if (error) { container.innerHTML = '<div class="loading-placeholder">❌ Ошибка загрузки</div>'; return; }
-      if (!data || data.length === 0) {
-        container.innerHTML = '<div class="loading-placeholder">📭 Нет аниме. Добавьте первое!</div>';
+      
+      if (error) {
+        container.innerHTML = '<div class="loading-placeholder">Ошибка загрузки</div>';
         return;
       }
+      
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="loading-placeholder">Нет аниме. Добавьте первое!</div>';
+        return;
+      }
+      
       container.innerHTML = data.map(a => `
         <div class="anime-card">
-          <button class="delete-btn" onclick="deleteAnime(${a.id})"><i class="fas fa-tr
+          <button class="delete-btn" data-id="${a.id}">🗑️</button>
+          <img src="${a.image}" alt="${a.title}">
+          <div class="anime-title">${a.title}</div>
+          <div class="anime-meta">${a.year || '—'} • ${a.genre || '—'}</div>
+        </div>
+      `).join('');
+      
+      // Привязываем удаление
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          if (confirm('Удалить аниме?')) {
+            const { error } = await supabase.from('anime').delete().eq('id', id);
+            if (error) showToast('Ошибка удаления', true);
+            else { showToast('Удалено!'); loadAnime(); }
+          }
+        });
+      });
+    }
+    
+    // Добавление аниме
+    document.getElementById('addAnimeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const newAnime = {
+        title: document.getElementById('animeTitle').value,
+        image: document.getElementById('animeImage').value,
+        year: parseInt(document.getElementById('animeYear').value) || null,
+        genre: document.getElementById('animeGenre').value || null
+      };
+      
+      const { error } = await supabase.from('anime').insert([newAnime]);
+      
+      if (error) {
+        showToast('Ошибка: ' + error.message, true);
+      } else {
+        showToast('✅ Аниме добавлено!');
+        this.reset();
+        document.getElementById('imagePreview').src = 'https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер';
+        document.querySelector('[data-page="catalog"]').click();
+        loadAnime();
+      }
+    });
+    
+    // Авторизация
+    document.getElementById('loginBtn').addEventListener('click', async function() {
+      const email = prompt('Email:');
+      const pass = prompt('Пароль:');
+      if (!email || !pass) return;
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+      if (error) showToast('Ошибка входа', true);
+      else showToast('✅ Вход выполнен!');
+    });
+    
+    document.getElementById('signupBtn').addEventListener('click', async function() {
+      const email = prompt('Email:');
+      const pass = prompt('Пароль (мин 6 символов):');
+      if (!email || !pass) return;
+      const { error } = await supabase.auth.signUp({ email, password: pass });
+      if (error) showToast('Ошибка регистрации', true);
+      else showToast('✅ Проверьте почту!');
+    });
+    
+    // Загрузка при старте
+    loadAnime();
+  })();
+</script>
+</body>
+</html>
