@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Anime Galaxy</title>
+<style>
+  body { margin:0; font-family:Arial; background:#020617; color:white; }
+  header{ text-align:center; padding:20px; font-size:28px; background:linear-gradient(90deg,#4f46e5,#9333ea); }
+  .btn{ padding:10px 15px; background:#7c3aed; border:none; color:white; border-radius:8px; cursor:pointer; }
+  .anime-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:15px; padding:20px;}
+  .anime-card{ background:#111730; padding:10px; border-radius:12px; text-align:center;}
+</style>
+</head>
+<body>
+
+<header>🌌 Anime Galaxy</header>
+
+<div style="text-align:center; padding:15px;">
+  <button class="btn" onclick="showLogin()">Войти</button>
+  <button class="btn" onclick="showSignup()">Регистрация</button>
+</div>
+
+<div class="anime-list" id="animeList"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabaseUrl = "https://ТВОЙ_PROJECT.supabase.co";
+  const supabaseKey = "ТВОЙ_ANON_KEY";
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function loadAnime(){
+    const { data } = await supabase.from("anime").select("*");
+    const container = document.getElementById("animeList");
+    container.innerHTML = "";
+    data.forEach(a => {
+      container.innerHTML += `
+      <div class="anime-card">
+        <img src="${a.image}" style="width:100%; border-radius:8px;">
+        <div>${a.title}</div>
+      </div>`;
+    });
+  }
+
+  async function showSignup(){
+    const email = prompt("Email:");
+    const pass = prompt("Пароль:");
+    const { error } = await supabase.auth.signUp({ email, password:pass });
+    if(error) alert(error.message); else alert("Проверь почту!");
+  }
+
+  async function showLogin(){
+    const email = prompt("Email:");
+    const pass = prompt("Пароль:");
+    const { error } = await supabase.auth.signInWithPassword({ email, password:pass });
+    if(error) alert(error.message); else { alert("Вход успешен!"); loadAnime(); }
+  }
+
+  loadAnime();
+</script>
+
+</body>
+</html>
