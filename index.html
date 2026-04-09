@@ -420,4 +420,151 @@
       container.innerHTML = data.map(a => `
         <div class="anime-card">
           <button class="delete-btn" data-id="${a.id}"><i class="fas fa-trash"></i></button>
-          <img src="${a
+          <img src="${a.image}" alt="${a.title}" onerror="this.src='https://via.placeholder.com/200x300/1a1f3a/a78bfa?text=Нет+фото'">
+          <div class="anime-title">${a.title}</div>
+          <div class="anime-meta">${a.year || '—'} • ${a.genre || '—'}</div>
+        </div>
+      `).join('');
+      
+      // Привязываем удаление
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          if (confirm('Удалить аниме?')) {
+            const { error } = await supabase.from('anime').delete().eq('id', id);
+            if (error) showToast('Ошибка удаления', true);
+            else { showToast('✅ Удалено!'); loadAnime(); }
+          }
+        });
+      });
+    }
+    
+    // Добавление аниме
+    document.getElementById('addAnimeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('animeTitle').value.trim();
+      const image = document.getElementById('animeImage').value.trim();
+      const year = parseInt(document.getElementById('animeYear').value) || null;
+      const genre = document.getElementById('animeGenre').value.trim() || null;
+      
+      if (!title || !image) {
+        showToast('❌ Заполните название и ссылку на постер', true);
+        return;
+      }
+      
+      const { error } = await supabase.from('anime').insert([{ title, image, year, genre }]);
+      
+      if (error) {
+        showToast('❌ Ошибка: ' + error.message, true);
+      } else {
+        showToast('✅ Аниме добавлено!');
+        this.reset();
+        imagePreview.src = 'https://via.placeholder.com/150x200/1a1f3a/a78bfa?text=Постер';
+        document.querySelector('[data-page="catalog"]').click();
+        loadAnime();
+      }
+    });
+    
+    // Функция показа модального окна
+    function showAuthModal(type) {
+      const existingModal = document.querySelector('.auth-modal');
+      if (existingModal) existingModal.remove();
+      
+      const modal = document.createElement('div');
+      modal.className = 'auth-modal';
+      modal.innerHTML = `
+        <div class="auth-card">
+          <button class="close-modal"><i class="fas fa-times"></i></button>
+          <div class="auth-header">
+            <i class="fas fa-${type === 'login' ? 'sign-in-alt' : 'user-plus'}"></i>
+            <h2>${type === 'login' ? 'Вход в галактику' : 'Регистрация'}</h2>
+          </div>
+          <form id="authForm">
+            <div class="auth-input-group">
+              <label><i class="fas fa-envelope"></i> Email</label>
+              <input type="email" class="auth-input" id="authEmail" placeholder="your@email.com" required>
+            </div>
+            <div class="auth-input-group">
+              <label><i class="fas fa-lock"></i> Пароль</label>
+              <input type="password" class="auth-input" id="authPassword" placeholder="••••••••" required minlength="6">
+            </div>
+            <div class="auth-actions">
+              <button type="submit" class="btn btn-primary">${type === 'login' ? 'Войти' : 'Зарегистрироваться'}</button>
+            </div>
+          </form>
+          <div class="auth-switch">
+            ${type === 'login' ? 'Нет аккаунта? <a class="switch-auth" data-type="signup">Регистрация</a>' : 'Уже есть аккаунт? <a class="switch-auth" data-type="login">Войти</a>'}
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      // Закрытие
+      modal.querySelector('.close-modal').addEventListener('click', () => modal.remove());
+      modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+      
+      // Переключение
+      modal.querySelector('.switch-auth').addEventListener('click', function() {
+        const newType = this.dataset.type;
+        modal.remove();
+        showAuthModal(newType);
+      });
+      
+      // Отправка формы
+      modal.querySelector('#authForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+        
+        if (type === 'login') {
+          const { error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) showToast('❌ Ошибка входа: ' + error.message, true);
+          else { showToast('✅ Вход выполнен!'); modal.remove(); checkUser(); }
+        } else {
+          const { error } = await supabase.auth.signUp({ email, password });
+          if (error) showToast('❌ Ошибка: ' + error.message, true);
+          else { showToast('✅ Проверьте почту для подтверждения!'); modal.remove(); }
+        }
+      });
+    }
+    
+    // Проверка пользователя
+    async function checkUser() {
+      const { data } = await supabase.auth.getSession();
+      currentUser = data.session?.user || null;
+      
+      const authSection = document.getElementById('authSection');
+      if (currentUser) {
+        authSection.innerHTML = `
+          <div class="user-info"><i class="fas fa-user-astronaut"></i> ${currentUser.email.split('@')[0]}</div>
+          <button class="btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+        `;
+        document.getElementById('logoutBtn').addEventListener('click', async function() {
+          await supabase.auth.signOut();
+          showToast('👋 Вы вышли');
+          checkUser();
+        });
+      } else {
+        authSection.innerHTML = `
+          <button class="btn" id="showLoginBtn"><i class="fas fa-sign-in-alt"></i> Войти</button>
+          <button class="btn" id="showSignupBtn"><i class="fas fa-user-plus"></i> Регистрация</button>
+        `;
+        document.getElementById('showLoginBtn').addEventListener('click', () => showAuthModal('login'));
+        document.getElementById('showSignupBtn').addEventListener('click', () => showAuthModal('signup'));
+      }
+    }
+    
+    // Привязка начальных кнопок
+    document.getElementById('showLoginBtn').addEventListener('click', () => showAuthModal('login'));
+    document.getElementById('showSignupBtn').addEventListener('click', () => showAuthModal('signup'));
+    
+    // Запуск
+    checkUser();
+    loadAnime();
+  })();
+</script>
+</body>
+</html>
